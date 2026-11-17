@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "weight-witness"
+version = "0.1.0"
+description = "Offline safetensors shard ownership audits and streaming checkpoint diffs"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "gedouluhui"}]
+dependencies = []
+keywords = ["safetensors", "checkpoint", "model-weights", "audit", "machine-learning"]
+classifiers = ["Development Status :: 3 - Alpha", "Programming Language :: Python :: 3", "Operating System :: OS Independent", "Topic :: Scientific/Engineering :: Artificial Intelligence"]
+
+[project.scripts]
+weight-witness = "weight_witness.cli:main"
+
+[project.urls]
+Repository = "https://github.com/gedouluhui/weight-witness"
+Issues = "https://github.com/gedouluhui/weight-witness/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,469 @@
+{
+  "schema_version": 1,
+  "kind": "diff",
+  "status": "different",
+  "policy": {
+    "atol": 0.0,
+    "rtol": 0.0,
+    "float_dtypes": [
+      "F32",
+      "F16",
+      "BF16"
+    ],
+    "other_dtypes": "exact payload byte equality only"
+  },
+  "summary": {
+    "total": 13,
+    "equal": 6,
+    "close": 0,
+    "changed": 4,
+    "added": 1,
+    "removed": 1,
+    "incompatible": 1,
+    "nonfinite": 0
+  },
+  "sources": {
+    "left": {
+      "files": [
+        "model.safetensors"
+      ],
+      "header_sha256": {
+        "model.safetensors": "ca86e82f2704a3f77e4896e148898163a48e528e93895112185a438ae63d7ac6"
+      }
+    },
+    "right": {
+      "files": [
+        "model.safetensors"
+      ],
+      "header_sha256": {
+        "model.safetensors": "934a361aa8a054462bc7c8fb0fe9d46acb61ff337d7efd02c2142c1cdac8e762"
+      }
+    }
+  },
+  "tensors": [
+    {
+      "name": "classifier.bias",
+      "status": "added",
+      "left": null,
+      "right": {
+        "dtype": "F32",
+        "shape": [
+          4
+        ],
+        "nbytes": 16,
+        "sha256": "958be38e5b5bdd8fa2cb4efd7df7fcbbed8ff20f30fd6821eacc966137e6ccde"
+      },
+      "metrics": null,
+      "nonfinite_left": null,
+      "nonfinite_right": 0
+    },
+    {
+      "name": "encoder.0.attention.k_proj.weight",
+      "status": "equal",
+      "left": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "7b47b2d6c681f3a730d09ff14a1602c66f43c31a5c930083adc8733d46c1c91c"
+      },
+      "right": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "7b47b2d6c681f3a730d09ff14a1602c66f43c31a5c930083adc8733d46c1c91c"
+      },
+      "metrics": {
+        "count": 16,
+        "finite_pairs": 16,
+        "changed_values": 0,
+        "outside_tolerance": 0,
+        "nonfinite_left": 0,
+        "nonfinite_right": 0,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "rmse": 0.0,
+        "worst_index": 0
+      },
+      "nonfinite_left": 0,
+      "nonfinite_right": 0
+    },
+    {
+      "name": "encoder.0.attention.q_proj.weight",
+      "status": "changed",
+      "left": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "7b47b2d6c681f3a730d09ff14a1602c66f43c31a5c930083adc8733d46c1c91c"
+      },
+      "right": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "1acbed65b1e61891a51d02f95453eab08f82de33a27567551705328ac9d67ed8"
+      },
+      "metrics": {
+        "count": 16,
+        "finite_pairs": 16,
+        "changed_values": 1,
+        "outside_tolerance": 1,
+        "nonfinite_left": 0,
+        "nonfinite_right": 0,
+        "max_abs": 0.4999999962747097,
+        "mean_abs": 0.031249999767169356,
+        "rmse": 0.12499999906867743,
+        "worst_index": 5
+      },
+      "nonfinite_left": 0,
+      "nonfinite_right": 0
+    },
+    {
+      "name": "encoder.0.attention.v_proj.weight",
+      "status": "equal",
+      "left": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "7b47b2d6c681f3a730d09ff14a1602c66f43c31a5c930083adc8733d46c1c91c"
+      },
+      "right": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "7b47b2d6c681f3a730d09ff14a1602c66f43c31a5c930083adc8733d46c1c91c"
+      },
+      "metrics": {
+        "count": 16,
+        "finite_pairs": 16,
+        "changed_values": 0,
+        "outside_tolerance": 0,
+        "nonfinite_left": 0,
+        "nonfinite_right": 0,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "rmse": 0.0,
+        "worst_index": 0
+      },
+      "nonfinite_left": 0,
+      "nonfinite_right": 0
+    },
+    {
+      "name": "encoder.1.attention.k_proj.weight",
+      "status": "equal",
+      "left": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "0133e1fd7c43285d53d75d761ec3f89f314d3f0f3b495e97c30db791224815a9"
+      },
+      "right": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "0133e1fd7c43285d53d75d761ec3f89f314d3f0f3b495e97c30db791224815a9"
+      },
+      "metrics": {
+        "count": 16,
+        "finite_pairs": 16,
+        "changed_values": 0,
+        "outside_tolerance": 0,
+        "nonfinite_left": 0,
+        "nonfinite_right": 0,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "rmse": 0.0,
+        "worst_index": 0
+      },
+      "nonfinite_left": 0,
+      "nonfinite_right": 0
+    },
+    {
+      "name": "encoder.1.attention.q_proj.weight",
+      "status": "changed",
+      "left": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "0133e1fd7c43285d53d75d761ec3f89f314d3f0f3b495e97c30db791224815a9"
+      },
+      "right": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "2a08576cc0b6b1688c08a834e285351e757de2857b5ea955683b7798f754d357"
+      },
+      "metrics": {
+        "count": 16,
+        "finite_pairs": 16,
+        "changed_values": 1,
+        "outside_tolerance": 1,
+        "nonfinite_left": 0,
+        "nonfinite_right": 0,
+        "max_abs": 0.4999999701976776,
+        "mean_abs": 0.03124999813735485,
+        "rmse": 0.1249999925494194,
+        "worst_index": 5
+      },
+      "nonfinite_left": 0,
+      "nonfinite_right": 0
+    },
+    {
+      "name": "encoder.1.attention.v_proj.weight",
+      "status": "changed",
+      "left": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "0133e1fd7c43285d53d75d761ec3f89f314d3f0f3b495e97c30db791224815a9"
+      },
+      "right": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "8536d5b0c8ffdd3a9b121aace9e598bd7a9c50a3f934e24f120c031b0b007d64"
+      },
+      "metrics": {
+        "count": 16,
+        "finite_pairs": 16,
+        "changed_values": 1,
+        "outside_tolerance": 1,
+        "nonfinite_left": 0,
+        "nonfinite_right": 0,
+        "max_abs": 0.125,
+        "mean_abs": 0.0078125,
+        "rmse": 0.03125,
+        "worst_index": 11
+      },
+      "nonfinite_left": 0,
+      "nonfinite_right": 0
+    },
+    {
+      "name": "encoder.2.attention.k_proj.weight",
+      "status": "equal",
+      "left": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "421ee3f2eb0b1382727271538a17e53f8c1a1f09fbb6f7686626f0a8ce3da6b7"
+      },
+      "right": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "421ee3f2eb0b1382727271538a17e53f8c1a1f09fbb6f7686626f0a8ce3da6b7"
+      },
+      "metrics": {
+        "count": 16,
+        "finite_pairs": 16,
+        "changed_values": 0,
+        "outside_tolerance": 0,
+        "nonfinite_left": 0,
+        "nonfinite_right": 0,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "rmse": 0.0,
+        "worst_index": 0
+      },
+      "nonfinite_left": 0,
+      "nonfinite_right": 0
+    },
+    {
+      "name": "encoder.2.attention.q_proj.weight",
+      "status": "changed",
+      "left": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "421ee3f2eb0b1382727271538a17e53f8c1a1f09fbb6f7686626f0a8ce3da6b7"
+      },
+      "right": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "a8630e5283dbef59515397c07605405edb7d81d976d2b996ddda9126c8e8d392"
+      },
+      "metrics": {
+        "count": 16,
+        "finite_pairs": 16,
+        "changed_values": 1,
+        "outside_tolerance": 1,
+        "nonfinite_left": 0,
+        "nonfinite_right": 0,
+        "max_abs": 0.5000000074505806,
+        "mean_abs": 0.03125000046566129,
+        "rmse": 0.12500000186264515,
+        "worst_index": 5
+      },
+      "nonfinite_left": 0,
+      "nonfinite_right": 0
+    },
+    {
+      "name": "encoder.2.attention.v_proj.weight",
+      "status": "equal",
+      "left": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "421ee3f2eb0b1382727271538a17e53f8c1a1f09fbb6f7686626f0a8ce3da6b7"
+      },
+      "right": {
+        "dtype": "F32",
+        "shape": [
+          4,
+          4
+        ],
+        "nbytes": 64,
+        "sha256": "421ee3f2eb0b1382727271538a17e53f8c1a1f09fbb6f7686626f0a8ce3da6b7"
+      },
+      "metrics": {
+        "count": 16,
+        "finite_pairs": 16,
+        "changed_values": 0,
+        "outside_tolerance": 0,
+        "nonfinite_left": 0,
+        "nonfinite_right": 0,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "rmse": 0.0,
+        "worst_index": 0
+      },
+      "nonfinite_left": 0,
+      "nonfinite_right": 0
+    },
+    {
+      "name": "final_norm.weight",
+      "status": "incompatible",
+      "left": {
+        "dtype": "F32",
+        "shape": [
+          4
+        ],
+        "nbytes": 16,
+        "sha256": "f6bb1294da2f78cd935b01c7656280df5eaa0439e9d97bc03775825a41a508e4"
+      },
+      "right": {
+        "dtype": "F16",
+        "shape": [
+          4
+        ],
+        "nbytes": 8,
+        "sha256": "deedf0014cc4c691390c525d65c2d22d4cdb4cd65f6b50b9727499975a21c848"
+      },
+      "metrics": null,
+      "nonfinite_left": 0,
+      "nonfinite_right": 0
+    },
+    {
+      "name": "legacy_head.bias",
+      "status": "removed",
+      "left": {
+        "dtype": "F32",
+        "shape": [
+          4
+        ],
+        "nbytes": 16,
+        "sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb"
+      },
+      "right": null,
+      "metrics": null,
+      "nonfinite_left": 0,
+      "nonfinite_right": null
+    },
+    {
+      "name": "token_embedding.weight",
+      "status": "equal",
+      "left": {
+        "dtype": "F32",
+        "shape": [
+          8,
+          4
+        ],
+        "nbytes": 128,
+        "sha256": "e894d3d3bb7d6007c4ec2b7787b5a848abc22807826e2490291bf33e37a40f05"
+      },
+      "right": {
+        "dtype": "F32",
+        "shape": [
+          8,
+          4
+        ],
+        "nbytes": 128,
+        "sha256": "e894d3d3bb7d6007c4ec2b7787b5a848abc22807826e2490291bf33e37a40f05"
+      },
+      "metrics": {
+        "count": 32,
+        "finite_pairs": 32,
+        "changed_values": 0,
+        "outside_tolerance": 0,
+        "nonfinite_left": 0,
+        "nonfinite_right": 0,
+        "max_abs": 0.0,
+        "mean_abs": 0.0,
+        "rmse": 0.0,
+        "worst_index": 0
+      },
+      "nonfinite_left": 0,
+      "nonfinite_right": 0
+    }
+  ],
+  "limitations": [
+    "Structural validity and weight equality do not establish model quality, provenance, or safety.",
+    "Only declared/referenced shards are audited; unrelated files in a directory are not scanned.",
+    "F32/F16/BF16 receive numerical scans. Other supported dtypes are bytewise only, including F64/FP8.",
+    "Source size/mtime/inode checks detect ordinary changes, not adversarial writes; use immutable snapshots.",
+    "Reports omit absolute paths and metadata values, but tensor and shard names can still disclose information.",
+    "Payloads are fully read; pure-Python numerical scanning favors portability, not GPU-scale throughput."
+  ],
+  "example": "Synthetic weights \u2014 reproducible demo, not a trained model or a performance benchmark."
+}

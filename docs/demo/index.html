@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;none&#x27;; style-src &#x27;unsafe-inline&#x27;; script-src &#x27;sha256-dGArTTgPg4FE3+xEP6INX8D61ZVpndfcRJ7ky911cm8=&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;"><title>Weight Witness — checkpoint evidence</title><style>
+:root{color-scheme:light;--frost:#eef3f7;--paper:#fff;--navy:#17314d;--ink:#152333;--muted:#536579;--teal:#007d79;--amber:#9a5200;--red:#ad263c;--line:#ccd7e1;--mono:Consolas,'Liberation Mono',monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--frost);color:var(--ink);font:15px/1.65 'Segoe UI',system-ui,sans-serif}a{color:var(--navy)}a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--teal);outline-offset:4px}.skip{position:absolute;top:-70px;background:white;padding:12px}.skip:focus{top:12px;z-index:5}.wrap{max-width:1220px;margin:auto;padding:32px 42px 64px}.mast{display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line);padding-bottom:21px}.brand{font-size:15px;font-weight:750;letter-spacing:.05em}.brandmark{display:inline-flex;align-items:center;gap:3px;vertical-align:middle;margin-right:11px}.brandmark i{display:block;width:5px;background:var(--navy);height:16px}.brandmark i:nth-child(2){height:23px;background:var(--teal)}.utility,.eyebrow{font:11px var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.hero{display:grid;grid-template-columns:1fr 260px;align-items:center;gap:35px;padding:46px 0 38px}h1{font-size:clamp(36px,5.5vw,67px);line-height:1.03;letter-spacing:-.05em;margin:16px 0 20px;font-weight:750;max-width:800px}.lede{max-width:650px;color:var(--muted);font-size:16px}.verdict{border-left:3px solid var(--amber);padding:6px 0 6px 24px}.verdict strong{display:block;font-size:24px;line-height:1.3;margin:8px 0}.verdict p{font-size:12px;color:var(--muted);margin:8px 0}.verdict[data-state=equal],.verdict[data-state=valid],.verdict[data-state=close]{border-color:var(--teal)}.overview{display:flex;flex-wrap:wrap;gap:28px;padding:22px 26px;background:var(--navy);color:white}.metric{min-width:88px}.metric b{display:block;font:27px/1.1 var(--mono);font-weight:500}.metric span{font-size:11px;letter-spacing:.05em;text-transform:uppercase;opacity:.8}.section{margin-top:34px}.section-head{display:flex;gap:15px;align-items:baseline;justify-content:space-between;margin-bottom:12px}h2{font-size:20px;margin:0;letter-spacing:-.03em}.hint{color:var(--muted);font-size:12px}.strip{display:flex;flex-wrap:wrap;gap:5px;padding:19px 20px;background:var(--paper);border:1px solid var(--line)}.cell{width:23px;height:34px;border-radius:2px;background:#73889c;display:block;text-decoration:none;transition:height .12s}.cell:hover{height:28px}.cell.equal,.cell.valid{background:var(--teal)}.cell.close{background:#428590}.cell.changed,.cell.nonfinite{background:var(--red)}.cell.added{background:#2a5aa0}.cell.removed{background:#9a5200}.cell.incompatible{background:#7554a3}.legend{display:flex;gap:17px;flex-wrap:wrap;margin:12px 0;font-size:11px;color:var(--muted)}.legend span:before{content:'';display:inline-block;width:7px;height:7px;margin-right:6px;background:var(--teal)}.legend .changed:before{background:var(--red)}.legend .added:before{background:#2a5aa0}.legend .removed:before{background:var(--amber)}.legend .incompatible:before{background:#7554a3}.controls{display:none;gap:20px;align-items:center;flex-wrap:wrap;background:var(--paper);padding:17px 20px;border:1px solid var(--line);border-bottom:0}.enhanced .controls{display:flex}.search{flex:1;min-width:200px}.search label{display:block;font-size:11px;font-weight:650;margin-bottom:4px}.search input{width:100%;max-width:500px;font:14px var(--mono);padding:9px 12px;border:1px solid #97a9b9;border-radius:3px;background:#f7f9fb;color:var(--ink)}.toggle{font-size:12px}.toggle input{accent-color:var(--teal)}.status-count{font:11px var(--mono);color:var(--muted)}.table-scroll{overflow:auto;border:1px solid var(--line);background:var(--paper)}table{border-collapse:collapse;width:100%;font-size:13px}th{text-align:left;font:11px var(--mono);font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:13px 18px;border-bottom:1px solid var(--line);background:#f7f9fc}td{padding:17px 18px;border-bottom:1px solid #e4ebf0;vertical-align:top}tbody tr:last-child td{border-bottom:0}tbody tr:target{background:#eef7f6}.tensor-name{font:13px var(--mono);overflow-wrap:anywhere;display:block;min-width:140px;max-width:490px}.tensor-shape{font:11px var(--mono);color:var(--muted);margin-top:4px}.badge{font:10px var(--mono);text-transform:uppercase;white-space:nowrap;padding:4px 7px;background:#e3edf4;color:var(--navy);border-radius:2px}.badge.changed,.badge.nonfinite{background:#f9e8ec;color:#8a152d}.badge.equal,.badge.valid,.badge.close{background:#e3f3ef;color:#00605d}.badge.incompatible{background:#f0e9f7;color:#67468e}.number{font:14px var(--mono)}details{margin-top:9px}summary{cursor:pointer;color:var(--navy);font-size:12px;width:fit-content}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:11px/1.65 var(--mono);background:#f5f8fb;border-left:2px solid var(--line);padding:13px;max-width:760px}.policy{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px}.note{padding:20px 24px;border-top:2px solid var(--navy);background:#e7eef4}.note h3{font-size:13px;margin:0 0 8px}.note p,.note li{font-size:12px;color:var(--muted)}.note ul{padding-left:17px;margin:8px 0}.note code{font-family:var(--mono);font-size:12px}.empty{padding:24px;color:var(--muted);background:white}.footer{display:flex;gap:20px;justify-content:space-between;border-top:1px solid var(--line);margin-top:32px;padding-top:18px;font:10px var(--mono);color:var(--muted)}[hidden]{display:none!important}@media(max-width:720px){.wrap{padding:20px 18px 40px}.hero{grid-template-columns:1fr;gap:18px;padding:28px 0}.verdict{padding-left:15px}.overview{gap:20px;padding:20px}.metric{min-width:65px}.metric b{font-size:22px}.policy{grid-template-columns:1fr}.section-head{display:block}.mast .utility{max-width:120px;text-align:right}.footer{display:block}th,td{padding:12px}.table-scroll{max-width:100%}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cell{transition:none}}@media print{.controls,.skip{display:none!important}.wrap{max-width:none;padding:0}.hero{padding:20px 0}.table-scroll{overflow:visible}.note,pre,tr{break-inside:avoid}}
+</style></head>
+<body><a class="skip" href="#evidence">Skip to tensor evidence</a><main class="wrap">
+<header class="mast"><div class="brand"><span class="brandmark" aria-hidden="true"><i></i><i></i><i></i></span>WEIGHT WITNESS</div><div class="utility">Offline evidence · schema 1</div></header>
+<p class="note" role="note">Synthetic weights — reproducible demo, not a trained model or a performance benchmark.</p>
+<section class="hero"><div><div class="eyebrow">Safetensors / compare</div><h1>What changed in<br>your checkpoint?</h1><p class="lede">Compare the weights, not the filenames. Every result below comes from the input tensor bytes, even when the shard layout changes.</p></div><aside class="verdict" data-state="different"><span class="utility">Audit result</span><strong>Differences found</strong><p>This is a weight-artifact check.<br>It is not a model-quality verdict.</p></aside></section>
+<section class="overview" aria-label="Audit counts"><div class="metric"><b>13</b><span>total</span></div><div class="metric"><b>6</b><span>equal</span></div><div class="metric"><b>0</b><span>close</span></div><div class="metric"><b>4</b><span>changed</span></div><div class="metric"><b>1</b><span>added</span></div><div class="metric"><b>1</b><span>removed</span></div><div class="metric"><b>1</b><span>incompatible</span></div></section>
+<section class="section"><div class="section-head"><h2>Tensor fingerprint</h2><span class="hint">One cell per tensor · select a cell to inspect its evidence</span></div><nav class="strip" aria-label="Tensor evidence shortcuts"><a class="cell added" href="#tensor-0" aria-label="classifier.bias: added" title="classifier.bias: added"></a><a class="cell equal" href="#tensor-1" aria-label="encoder.0.attention.k_proj.weight: equal" title="encoder.0.attention.k_proj.weight: equal"></a><a class="cell changed" href="#tensor-2" aria-label="encoder.0.attention.q_proj.weight: changed" title="encoder.0.attention.q_proj.weight: changed"></a><a class="cell equal" href="#tensor-3" aria-label="encoder.0.attention.v_proj.weight: equal" title="encoder.0.attention.v_proj.weight: equal"></a><a class="cell equal" href="#tensor-4" aria-label="encoder.1.attention.k_proj.weight: equal" title="encoder.1.attention.k_proj.weight: equal"></a><a class="cell changed" href="#tensor-5" aria-label="encoder.1.attention.q_proj.weight: changed" title="encoder.1.attention.q_proj.weight: changed"></a><a class="cell changed" href="#tensor-6" aria-label="encoder.1.attention.v_proj.weight: changed" title="encoder.1.attention.v_proj.weight: changed"></a><a class="cell equal" href="#tensor-7" aria-label="encoder.2.attention.k_proj.weight: equal" title="encoder.2.attention.k_proj.weight: equal"></a><a class="cell changed" href="#tensor-8" aria-label="encoder.2.attention.q_proj.weight: changed" title="encoder.2.attention.q_proj.weight: changed"></a><a class="cell equal" href="#tensor-9" aria-label="encoder.2.attention.v_proj.weight: equal" title="encoder.2.attention.v_proj.weight: equal"></a><a class="cell incompatible" href="#tensor-10" aria-label="final_norm.weight: incompatible" title="final_norm.weight: incompatible"></a><a class="cell removed" href="#tensor-11" aria-label="legacy_head.bias: removed" title="legacy_head.bias: removed"></a><a class="cell equal" href="#tensor-12" aria-label="token_embedding.weight: equal" title="token_embedding.weight: equal"></a></nav><div class="legend"><span>Equal / valid</span><span class="changed">Changed / nonfinite</span><span class="added">Added</span><span class="removed">Removed</span><span class="incompatible">Incompatible</span></div></section>
+<section class="section" id="evidence"><div class="section-head"><h2>Follow the evidence</h2><span class="hint">Full payload fingerprints · flat C-order difference positions</span></div>
+<div class="controls"><div class="search"><label for="tensor-search">Search tensor names</label><input id="tensor-search" type="search" placeholder="e.g. attention.q_proj" autocomplete="off"></div><label class="toggle"><input id="diff-only" type="checkbox"> Differences / alerts only</label><span class="status-count" id="result-count" role="status" aria-live="polite"></span></div>
+<div class="table-scroll"><table><thead><tr><th scope="col">Tensor / evidence</th><th scope="col">State</th><th scope="col">Max abs delta</th></tr></thead><tbody><tr id="tensor-0" data-tensor="classifier.bias" data-state="added"><td><span class="tensor-name">classifier.bias</span><div class="tensor-shape">F32 · 4 · 16 bytes</div><details><summary>View evidence</summary><pre>{
+  &quot;name&quot;: &quot;classifier.bias&quot;,
+  &quot;status&quot;: &quot;added&quot;,
+  &quot;left&quot;: null,
+  &quot;right&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4
+    ],
+    &quot;nbytes&quot;: 16,
+    &quot;sha256&quot;: &quot;958be38e5b5bdd8fa2cb4efd7df7fcbbed8ff20f30fd6821eacc966137e6ccde&quot;
+  },
+  &quot;metrics&quot;: null,
+  &quot;nonfinite_left&quot;: null,
+  &quot;nonfinite_right&quot;: 0
+}</pre></details></td><td><span class="badge added">added</span></td><td class="number">not scanned</td></tr><tr id="tensor-1" data-tensor="encoder.0.attention.k_proj.weight" data-state="equal"><td><span class="tensor-name">encoder.0.attention.k_proj.weight</span><div class="tensor-shape">F32 · 4 × 4 · 64 bytes</div><details><summary>View evidence</summary><pre>{
+  &quot;name&quot;: &quot;encoder.0.attention.k_proj.weight&quot;,
+  &quot;status&quot;: &quot;equal&quot;,
+  &quot;left&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;7b47b2d6c681f3a730d09ff14a1602c66f43c31a5c930083adc8733d46c1c91c&quot;
+  },
+  &quot;right&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;7b47b2d6c681f3a730d09ff14a1602c66f43c31a5c930083adc8733d46c1c91c&quot;
+  },
+  &quot;metrics&quot;: {
+    &quot;count&quot;: 16,
+    &quot;finite_pairs&quot;: 16,
+    &quot;changed_values&quot;: 0,
+    &quot;outside_tolerance&quot;: 0,
+    &quot;nonfinite_left&quot;: 0,
+    &quot;nonfinite_right&quot;: 0,
+    &quot;max_abs&quot;: 0.0,
+    &quot;mean_abs&quot;: 0.0,
+    &quot;rmse&quot;: 0.0,
+    &quot;worst_index&quot;: 0
+  },
+  &quot;nonfinite_left&quot;: 0,
+  &quot;nonfinite_right&quot;: 0
+}</pre></details></td><td><span class="badge equal">equal</span></td><td class="number">0</td></tr><tr id="tensor-2" data-tensor="encoder.0.attention.q_proj.weight" data-state="changed"><td><span class="tensor-name">encoder.0.attention.q_proj.weight</span><div class="tensor-shape">F32 · 4 × 4 · 64 bytes</div><details><summary>View evidence</summary><pre>{
+  &quot;name&quot;: &quot;encoder.0.attention.q_proj.weight&quot;,
+  &quot;status&quot;: &quot;changed&quot;,
+  &quot;left&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;7b47b2d6c681f3a730d09ff14a1602c66f43c31a5c930083adc8733d46c1c91c&quot;
+  },
+  &quot;right&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;1acbed65b1e61891a51d02f95453eab08f82de33a27567551705328ac9d67ed8&quot;
+  },
+  &quot;metrics&quot;: {
+    &quot;count&quot;: 16,
+    &quot;finite_pairs&quot;: 16,
+    &quot;changed_values&quot;: 1,
+    &quot;outside_tolerance&quot;: 1,
+    &quot;nonfinite_left&quot;: 0,
+    &quot;nonfinite_right&quot;: 0,
+    &quot;max_abs&quot;: 0.4999999962747097,
+    &quot;mean_abs&quot;: 0.031249999767169356,
+    &quot;rmse&quot;: 0.12499999906867743,
+    &quot;worst_index&quot;: 5
+  },
+  &quot;nonfinite_left&quot;: 0,
+  &quot;nonfinite_right&quot;: 0
+}</pre></details></td><td><span class="badge changed">changed</span></td><td class="number">0.5</td></tr><tr id="tensor-3" data-tensor="encoder.0.attention.v_proj.weight" data-state="equal"><td><span class="tensor-name">encoder.0.attention.v_proj.weight</span><div class="tensor-shape">F32 · 4 × 4 · 64 bytes</div><details><summary>View evidence</summary><pre>{
+  &quot;name&quot;: &quot;encoder.0.attention.v_proj.weight&quot;,
+  &quot;status&quot;: &quot;equal&quot;,
+  &quot;left&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;7b47b2d6c681f3a730d09ff14a1602c66f43c31a5c930083adc8733d46c1c91c&quot;
+  },
+  &quot;right&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;7b47b2d6c681f3a730d09ff14a1602c66f43c31a5c930083adc8733d46c1c91c&quot;
+  },
+  &quot;metrics&quot;: {
+    &quot;count&quot;: 16,
+    &quot;finite_pairs&quot;: 16,
+    &quot;changed_values&quot;: 0,
+    &quot;outside_tolerance&quot;: 0,
+    &quot;nonfinite_left&quot;: 0,
+    &quot;nonfinite_right&quot;: 0,
+    &quot;max_abs&quot;: 0.0,
+    &quot;mean_abs&quot;: 0.0,
+    &quot;rmse&quot;: 0.0,
+    &quot;worst_index&quot;: 0
+  },
+  &quot;nonfinite_left&quot;: 0,
+  &quot;nonfinite_right&quot;: 0
+}</pre></details></td><td><span class="badge equal">equal</span></td><td class="number">0</td></tr><tr id="tensor-4" data-tensor="encoder.1.attention.k_proj.weight" data-state="equal"><td><span class="tensor-name">encoder.1.attention.k_proj.weight</span><div class="tensor-shape">F32 · 4 × 4 · 64 bytes</div><details><summary>View evidence</summary><pre>{
+  &quot;name&quot;: &quot;encoder.1.attention.k_proj.weight&quot;,
+  &quot;status&quot;: &quot;equal&quot;,
+  &quot;left&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;0133e1fd7c43285d53d75d761ec3f89f314d3f0f3b495e97c30db791224815a9&quot;
+  },
+  &quot;right&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;0133e1fd7c43285d53d75d761ec3f89f314d3f0f3b495e97c30db791224815a9&quot;
+  },
+  &quot;metrics&quot;: {
+    &quot;count&quot;: 16,
+    &quot;finite_pairs&quot;: 16,
+    &quot;changed_values&quot;: 0,
+    &quot;outside_tolerance&quot;: 0,
+    &quot;nonfinite_left&quot;: 0,
+    &quot;nonfinite_right&quot;: 0,
+    &quot;max_abs&quot;: 0.0,
+    &quot;mean_abs&quot;: 0.0,
+    &quot;rmse&quot;: 0.0,
+    &quot;worst_index&quot;: 0
+  },
+  &quot;nonfinite_left&quot;: 0,
+  &quot;nonfinite_right&quot;: 0
+}</pre></details></td><td><span class="badge equal">equal</span></td><td class="number">0</td></tr><tr id="tensor-5" data-tensor="encoder.1.attention.q_proj.weight" data-state="changed"><td><span class="tensor-name">encoder.1.attention.q_proj.weight</span><div class="tensor-shape">F32 · 4 × 4 · 64 bytes</div><details><summary>View evidence</summary><pre>{
+  &quot;name&quot;: &quot;encoder.1.attention.q_proj.weight&quot;,
+  &quot;status&quot;: &quot;changed&quot;,
+  &quot;left&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;0133e1fd7c43285d53d75d761ec3f89f314d3f0f3b495e97c30db791224815a9&quot;
+  },
+  &quot;right&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;2a08576cc0b6b1688c08a834e285351e757de2857b5ea955683b7798f754d357&quot;
+  },
+  &quot;metrics&quot;: {
+    &quot;count&quot;: 16,
+    &quot;finite_pairs&quot;: 16,
+    &quot;changed_values&quot;: 1,
+    &quot;outside_tolerance&quot;: 1,
+    &quot;nonfinite_left&quot;: 0,
+    &quot;nonfinite_right&quot;: 0,
+    &quot;max_abs&quot;: 0.4999999701976776,
+    &quot;mean_abs&quot;: 0.03124999813735485,
+    &quot;rmse&quot;: 0.1249999925494194,
+    &quot;worst_index&quot;: 5
+  },
+  &quot;nonfinite_left&quot;: 0,
+  &quot;nonfinite_right&quot;: 0
+}</pre></details></td><td><span class="badge changed">changed</span></td><td class="number">0.5</td></tr><tr id="tensor-6" data-tensor="encoder.1.attention.v_proj.weight" data-state="changed"><td><span class="tensor-name">encoder.1.attention.v_proj.weight</span><div class="tensor-shape">F32 · 4 × 4 · 64 bytes</div><details><summary>View evidence</summary><pre>{
+  &quot;name&quot;: &quot;encoder.1.attention.v_proj.weight&quot;,
+  &quot;status&quot;: &quot;changed&quot;,
+  &quot;left&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;0133e1fd7c43285d53d75d761ec3f89f314d3f0f3b495e97c30db791224815a9&quot;
+  },
+  &quot;right&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;8536d5b0c8ffdd3a9b121aace9e598bd7a9c50a3f934e24f120c031b0b007d64&quot;
+  },
+  &quot;metrics&quot;: {
+    &quot;count&quot;: 16,
+    &quot;finite_pairs&quot;: 16,
+    &quot;changed_values&quot;: 1,
+    &quot;outside_tolerance&quot;: 1,
+    &quot;nonfinite_left&quot;: 0,
+    &quot;nonfinite_right&quot;: 0,
+    &quot;max_abs&quot;: 0.125,
+    &quot;mean_abs&quot;: 0.0078125,
+    &quot;rmse&quot;: 0.03125,
+    &quot;worst_index&quot;: 11
+  },
+  &quot;nonfinite_left&quot;: 0,
+  &quot;nonfinite_right&quot;: 0
+}</pre></details></td><td><span class="badge changed">changed</span></td><td class="number">0.125</td></tr><tr id="tensor-7" data-tensor="encoder.2.attention.k_proj.weight" data-state="equal"><td><span class="tensor-name">encoder.2.attention.k_proj.weight</span><div class="tensor-shape">F32 · 4 × 4 · 64 bytes</div><details><summary>View evidence</summary><pre>{
+  &quot;name&quot;: &quot;encoder.2.attention.k_proj.weight&quot;,
+  &quot;status&quot;: &quot;equal&quot;,
+  &quot;left&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;421ee3f2eb0b1382727271538a17e53f8c1a1f09fbb6f7686626f0a8ce3da6b7&quot;
+  },
+  &quot;right&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;421ee3f2eb0b1382727271538a17e53f8c1a1f09fbb6f7686626f0a8ce3da6b7&quot;
+  },
+  &quot;metrics&quot;: {
+    &quot;count&quot;: 16,
+    &quot;finite_pairs&quot;: 16,
+    &quot;changed_values&quot;: 0,
+    &quot;outside_tolerance&quot;: 0,
+    &quot;nonfinite_left&quot;: 0,
+    &quot;nonfinite_right&quot;: 0,
+    &quot;max_abs&quot;: 0.0,
+    &quot;mean_abs&quot;: 0.0,
+    &quot;rmse&quot;: 0.0,
+    &quot;worst_index&quot;: 0
+  },
+  &quot;nonfinite_left&quot;: 0,
+  &quot;nonfinite_right&quot;: 0
+}</pre></details></td><td><span class="badge equal">equal</span></td><td class="number">0</td></tr><tr id="tensor-8" data-tensor="encoder.2.attention.q_proj.weight" data-state="changed"><td><span class="tensor-name">encoder.2.attention.q_proj.weight</span><div class="tensor-shape">F32 · 4 × 4 · 64 bytes</div><details><summary>View evidence</summary><pre>{
+  &quot;name&quot;: &quot;encoder.2.attention.q_proj.weight&quot;,
+  &quot;status&quot;: &quot;changed&quot;,
+  &quot;left&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;421ee3f2eb0b1382727271538a17e53f8c1a1f09fbb6f7686626f0a8ce3da6b7&quot;
+  },
+  &quot;right&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;a8630e5283dbef59515397c07605405edb7d81d976d2b996ddda9126c8e8d392&quot;
+  },
+  &quot;metrics&quot;: {
+    &quot;count&quot;: 16,
+    &quot;finite_pairs&quot;: 16,
+    &quot;changed_values&quot;: 1,
+    &quot;outside_tolerance&quot;: 1,
+    &quot;nonfinite_left&quot;: 0,
+    &quot;nonfinite_right&quot;: 0,
+    &quot;max_abs&quot;: 0.5000000074505806,
+    &quot;mean_abs&quot;: 0.03125000046566129,
+    &quot;rmse&quot;: 0.12500000186264515,
+    &quot;worst_index&quot;: 5
+  },
+  &quot;nonfinite_left&quot;: 0,
+  &quot;nonfinite_right&quot;: 0
+}</pre></details></td><td><span class="badge changed">changed</span></td><td class="number">0.5</td></tr><tr id="tensor-9" data-tensor="encoder.2.attention.v_proj.weight" data-state="equal"><td><span class="tensor-name">encoder.2.attention.v_proj.weight</span><div class="tensor-shape">F32 · 4 × 4 · 64 bytes</div><details><summary>View evidence</summary><pre>{
+  &quot;name&quot;: &quot;encoder.2.attention.v_proj.weight&quot;,
+  &quot;status&quot;: &quot;equal&quot;,
+  &quot;left&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;421ee3f2eb0b1382727271538a17e53f8c1a1f09fbb6f7686626f0a8ce3da6b7&quot;
+  },
+  &quot;right&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4,
+      4
+    ],
+    &quot;nbytes&quot;: 64,
+    &quot;sha256&quot;: &quot;421ee3f2eb0b1382727271538a17e53f8c1a1f09fbb6f7686626f0a8ce3da6b7&quot;
+  },
+  &quot;metrics&quot;: {
+    &quot;count&quot;: 16,
+    &quot;finite_pairs&quot;: 16,
+    &quot;changed_values&quot;: 0,
+    &quot;outside_tolerance&quot;: 0,
+    &quot;nonfinite_left&quot;: 0,
+    &quot;nonfinite_right&quot;: 0,
+    &quot;max_abs&quot;: 0.0,
+    &quot;mean_abs&quot;: 0.0,
+    &quot;rmse&quot;: 0.0,
+    &quot;worst_index&quot;: 0
+  },
+  &quot;nonfinite_left&quot;: 0,
+  &quot;nonfinite_right&quot;: 0
+}</pre></details></td><td><span class="badge equal">equal</span></td><td class="number">0</td></tr><tr id="tensor-10" data-tensor="final_norm.weight" data-state="incompatible"><td><span class="tensor-name">final_norm.weight</span><div class="tensor-shape">F16 · 4 · 8 bytes</div><details><summary>View evidence</summary><pre>{
+  &quot;name&quot;: &quot;final_norm.weight&quot;,
+  &quot;status&quot;: &quot;incompatible&quot;,
+  &quot;left&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4
+    ],
+    &quot;nbytes&quot;: 16,
+    &quot;sha256&quot;: &quot;f6bb1294da2f78cd935b01c7656280df5eaa0439e9d97bc03775825a41a508e4&quot;
+  },
+  &quot;right&quot;: {
+    &quot;dtype&quot;: &quot;F16&quot;,
+    &quot;shape&quot;: [
+      4
+    ],
+    &quot;nbytes&quot;: 8,
+    &quot;sha256&quot;: &quot;deedf0014cc4c691390c525d65c2d22d4cdb4cd65f6b50b9727499975a21c848&quot;
+  },
+  &quot;metrics&quot;: null,
+  &quot;nonfinite_left&quot;: 0,
+  &quot;nonfinite_right&quot;: 0
+}</pre></details></td><td><span class="badge incompatible">incompatible</span></td><td class="number">not scanned</td></tr><tr id="tensor-11" data-tensor="legacy_head.bias" data-state="removed"><td><span class="tensor-name">legacy_head.bias</span><div class="tensor-shape">F32 · 4 · 16 bytes</div><details><summary>View evidence</summary><pre>{
+  &quot;name&quot;: &quot;legacy_head.bias&quot;,
+  &quot;status&quot;: &quot;removed&quot;,
+  &quot;left&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      4
+    ],
+    &quot;nbytes&quot;: 16,
+    &quot;sha256&quot;: &quot;374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb&quot;
+  },
+  &quot;right&quot;: null,
+  &quot;metrics&quot;: null,
+  &quot;nonfinite_left&quot;: 0,
+  &quot;nonfinite_right&quot;: null
+}</pre></details></td><td><span class="badge removed">removed</span></td><td class="number">not scanned</td></tr><tr id="tensor-12" data-tensor="token_embedding.weight" data-state="equal"><td><span class="tensor-name">token_embedding.weight</span><div class="tensor-shape">F32 · 8 × 4 · 128 bytes</div><details><summary>View evidence</summary><pre>{
+  &quot;name&quot;: &quot;token_embedding.weight&quot;,
+  &quot;status&quot;: &quot;equal&quot;,
+  &quot;left&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      8,
+      4
+    ],
+    &quot;nbytes&quot;: 128,
+    &quot;sha256&quot;: &quot;e894d3d3bb7d6007c4ec2b7787b5a848abc22807826e2490291bf33e37a40f05&quot;
+  },
+  &quot;right&quot;: {
+    &quot;dtype&quot;: &quot;F32&quot;,
+    &quot;shape&quot;: [
+      8,
+      4
+    ],
+    &quot;nbytes&quot;: 128,
+    &quot;sha256&quot;: &quot;e894d3d3bb7d6007c4ec2b7787b5a848abc22807826e2490291bf33e37a40f05&quot;
+  },
+  &quot;metrics&quot;: {
+    &quot;count&quot;: 32,
+    &quot;finite_pairs&quot;: 32,
+    &quot;changed_values&quot;: 0,
+    &quot;outside_tolerance&quot;: 0,
+    &quot;nonfinite_left&quot;: 0,
+    &quot;nonfinite_right&quot;: 0,
+    &quot;max_abs&quot;: 0.0,
+    &quot;mean_abs&quot;: 0.0,
+    &quot;rmse&quot;: 0.0,
+    &quot;worst_index&quot;: 0
+  },
+  &quot;nonfinite_left&quot;: 0,
+  &quot;nonfinite_right&quot;: 0
+}</pre></details></td><td><span class="badge equal">equal</span></td><td class="number">0</td></tr></tbody></table></div><p class="empty" id="no-matches" hidden>No tensors match this view. Clear the search or disable the filter.</p></section>
+<div class="policy"><section class="note"><h3>The comparison rule</h3><p><code>abs(right − left) ≤ atol + rtol × abs(left)</code><br>atol = 0.0 · rtol = 0.0<br>Equal means identical payload hashes; close means numerically within tolerance. Nonfinite floating values never pass. Other supported dtypes use bytewise equality.</p><details><summary>Source header fingerprints</summary><pre>{
+  &quot;left&quot;: {
+    &quot;files&quot;: [
+      &quot;model.safetensors&quot;
+    ],
+    &quot;header_sha256&quot;: {
+      &quot;model.safetensors&quot;: &quot;ca86e82f2704a3f77e4896e148898163a48e528e93895112185a438ae63d7ac6&quot;
+    }
+  },
+  &quot;right&quot;: {
+    &quot;files&quot;: [
+      &quot;model.safetensors&quot;
+    ],
+    &quot;header_sha256&quot;: {
+      &quot;model.safetensors&quot;: &quot;934a361aa8a054462bc7c8fb0fe9d46acb61ff337d7efd02c2142c1cdac8e762&quot;
+    }
+  }
+}</pre></details></section><section class="note"><h3>What this report does not prove</h3><ul><li>Structural validity and weight equality do not establish model quality, provenance, or safety.</li><li>Only declared/referenced shards are audited; unrelated files in a directory are not scanned.</li><li>F32/F16/BF16 receive numerical scans. Other supported dtypes are bytewise only, including F64/FP8.</li><li>Source size/mtime/inode checks detect ordinary changes, not adversarial writes; use immutable snapshots.</li><li>Reports omit absolute paths and metadata values, but tensor and shard names can still disclose information.</li><li>Payloads are fully read; pure-Python numerical scanning favors portability, not GPU-scale throughput.</li></ul></section></div>
+<footer class="footer"><span>WEIGHT WITNESS · LOCAL, READ-ONLY ANALYSIS</span><span>No telemetry · no external assets · no model execution</span></footer>
+</main><script>
+(() => {
+  document.documentElement.classList.add('enhanced');
+  const search = document.getElementById('tensor-search');
+  const only = document.getElementById('diff-only');
+  const rows = Array.from(document.querySelectorAll('tr[data-tensor]'));
+  const counter = document.getElementById('result-count');
+  const empty = document.getElementById('no-matches');
+  function update() {
+    const query = search.value.toLocaleLowerCase();
+    let visible = 0;
+    rows.forEach(row => {
+      const state = row.dataset.state;
+      const changed = !['equal', 'valid', 'close'].includes(state);
+      row.hidden = !row.dataset.tensor.toLocaleLowerCase().includes(query) || (only.checked && !changed);
+      if (!row.hidden) visible++;
+    });
+    counter.textContent = visible + ' / ' + rows.length + ' tensors shown';
+    empty.hidden = visible !== 0;
+  }
+  search.addEventListener('input', update);
+  only.addEventListener('change', update);
+  document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', () => {
+    search.value = ''; only.checked = false; update();
+  }));
+  update();
+})();
+</script></body></html>
