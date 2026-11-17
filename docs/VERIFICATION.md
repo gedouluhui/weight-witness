@@ -44,8 +44,12 @@ The page is explicitly marked synthetic. It is not evidence of a trained model, 
 
 - GPU behavior, model quality, multi-billion-parameter throughput/RSS, or real users.
 - Safari/Firefox, screen readers, or physical mobile devices.
-- Windows symlink behavior on this machine; the Linux CI configuration includes the test but a configuration is not a CI result.
+- Windows symlink behavior on the maintainer's machine. The Linux hosted CI run described below did execute and pass the symlink rejection test.
 - Packed/sub-byte dtypes, unknown future dtypes, nested shard paths, and hostile concurrent writers: outside the declared v0.1 scope.
 - A universal absence of sensitive information. A scoped pre-publication text/path scan found no credential/private-path pattern matches in selected source files; arbitrary tensor names still need human review before sharing a report.
 
-GitHub Actions results are independent live evidence visible on the repository; they are not inferred from this local record. Release files and published source must match the reviewed commit.
+## Hosted checks
+
+[GitHub Actions run 44173355164](https://github.com/gedouluhui/weight-witness/actions/runs/44173355164), source commit `4c437d9aa6e7ec32bc904255ad1a83515204b818`, completed successfully: Windows and Ubuntu on Python 3.10/3.12/3.13, plus the independent-oracle job (seven jobs). The oracle log explicitly records NumPy 2.5.5 and safetensors 0.8.0, all 58 tests passed with no skips, including the Linux symlink test. The dependency-free Linux job correctly skipped the four optional-oracle tests; those are not counted as passes.
+
+GitHub Pages reported the same commit built successfully. The published demo was then loaded in a separate browser connection: 13 tensor rows, active search/filter enhancement, visible synthetic label, and no resource subrequests. These hosted results are separate from the local 0.7.0 oracle run above. New runs remain visible on the repository; release files and published source must match their reviewed commit.

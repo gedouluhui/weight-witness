@@ -1,5 +1,7 @@
 # Weight Witness：模型权重工件审计
 
+[在线演示](https://gedouluhui.github.io/weight-witness/demo/) · [GitHub](https://github.com/gedouluhui/weight-witness) · [CI结果](https://github.com/gedouluhui/weight-witness/actions/workflows/ci.yml)
+
 不加载模型、不依赖 PyTorch、不执行 pickle、不上传数据。检查本地 safetensors 的分片索引是否真的指向正确权重，并逐张量比较两个 checkpoint 的内容；重分片但权重相同不会被误报成模型变化。
 
 这是实验性 v0.1.0 工具，不是模型质量评测器、来源认证器或安全保证。英文 [README](README.md) 是完整使用与边界说明。

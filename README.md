@@ -4,7 +4,9 @@
 
 Audit local safetensors shard ownership and compare tensor values, without loading a model, importing PyTorch, executing pickle, or sending data anywhere.
 
-[中文说明](README.zh-CN.md) · [Open the example report](docs/demo/index.html) · [Machine-readable example](docs/demo/report.json) · [Design and boundaries](docs/DESIGN.md)
+[Live demo](https://gedouluhui.github.io/weight-witness/demo/) · [中文说明](README.zh-CN.md) · [Offline report](docs/demo/index.html) · [Machine-readable example](docs/demo/report.json) · [Design and boundaries](docs/DESIGN.md)
+
+[![Audit tests](https://github.com/gedouluhui/weight-witness/actions/workflows/ci.yml/badge.svg)](https://github.com/gedouluhui/weight-witness/actions/workflows/ci.yml)
 
 > Experimental v0.1.0. Original code under MIT. No GPU or API key. No third-party runtime dependencies. A weight-artifact check is **not** a model-quality, provenance, or security verdict.
 
