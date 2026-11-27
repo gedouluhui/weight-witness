@@ -43,3 +43,34 @@ python -m unittest discover -s tests -p test_oracle.py -v
 第二组使用官方 safetensors 读写和 NumPy 数值作为独立参照。依赖缺失或 Windows 不允许创建 symlink 时，相关测试明确 skip，不能算作通过。发布时实测与未测项目见 [验证记录](docs/VERIFICATION.md)。
 
 MIT 许可。欢迎提交最小合成复现、测试和可解释修复；不要上传私有权重、凭据或未经授权的数据。项目使用 AI 辅助开发并经过独立代码审查，不夸大原创算法或外部用户数量。
+
+## 快速开始与支持状态
+
+### 问题
+在不加载模型、不导入 PyTorch、不执行 pickle、不上传数据的情况下，审计 safetensors 分片归属并比较张量值。
+
+### 安装
+```sh
+python -m pip install .
+```
+
+### 成功命令
+```sh
+python examples/make_demo.py --output artifacts/demo && weight-witness diff artifacts/demo/base artifacts/demo/resharded
+```
+预期：不同分片布局中的未变更张量比较为 equal；退出码 0。
+
+### 故意失败命令
+```sh
+weight-witness diff artifacts/demo/base artifacts/demo/candidate --json artifacts/diff.json --html artifacts/diff.html
+```
+预期：真实权重变更被报告为 different；退出码 1。
+
+### 证据与覆盖边界
+证据包括结构解析器测试、真实 CLI 往返、输出别名保护、确定性报告，以及可选的官方 safetensors/NumPy oracle。覆盖范围是文档化的 safetensors 类型/路径子集；不是模型质量、来源、恶意代码或安全判定。
+
+### 支持状态
+版本 0.1.0 是实验性版本，支持 Python 3.10+，无第三方运行时依赖。README 表明项目尚未发布到 PyPI。维护为尽力而为，不提供 SLA。
+
+### 限制
+扫描器仅支持文档化的 safetensors 类型和简单相对分片文件名。它优先考虑可移植性而非吞吐量，不认证来源；每个输出替换是原子的，但 JSON 与 HTML 不是一个文件系统事务。
