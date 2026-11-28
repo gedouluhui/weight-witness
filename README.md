@@ -8,7 +8,7 @@ Audit local safetensors shard ownership and compare tensor values, without loadi
 
 [![Audit tests](https://github.com/gedouluhui/weight-witness/actions/workflows/ci.yml/badge.svg)](https://github.com/gedouluhui/weight-witness/actions/workflows/ci.yml)
 
-> Experimental v0.1.0. Original code under MIT. No GPU or API key. No third-party runtime dependencies. A weight-artifact check is **not** a model-quality, provenance, or security verdict.
+> Experimental v0.1.1. Original code under MIT. No GPU or API key. No third-party runtime dependencies. A weight-artifact check is **not** a model-quality, provenance, or security verdict.
 
 ![Actual synthetic checkpoint diff report](docs/demo/preview.png)
 
@@ -112,3 +112,34 @@ Format reference: [safetensors 0.8.0](https://docs.rs/safetensors/0.8.0/safetens
 A useful report includes a tiny synthetic reproducer, Python/package versions, expected outcome and actual JSON. **Do not upload private model weights or credentials.** Add a regression test with any fix. Contributions extending dtype/path support must include official-writer interoperability checks and a precise numerical policy.
 
 This project was developed with AI assistance and independent code review. Test results demonstrate the covered cases, not universal correctness or real-user adoption.
+
+## Quickstart and support
+
+### Problem
+Audit safetensors shard ownership and compare tensor values without loading a model, importing PyTorch, executing pickle, or sending data anywhere.
+
+### Install
+```sh
+python -m pip install .
+```
+
+### Success
+```sh
+python examples/make_demo.py --output artifacts/demo && weight-witness diff artifacts/demo/base artifacts/demo/resharded
+```
+Expected: The unchanged tensors in a different shard layout compare as equal; exit 0.
+
+### Deliberate failure
+```sh
+weight-witness diff artifacts/demo/base artifacts/demo/candidate --json artifacts/diff.json --html artifacts/diff.html
+```
+Expected: The actual weight changes are reported as different and exit 1.
+
+### Evidence and coverage boundaries
+Evidence includes structural parser tests, real CLI round trips, output-alias protection, deterministic reports, and an optional official safetensors/NumPy oracle. Coverage is the documented safetensors dtype/path subset; it is not a model-quality, provenance, malware, or security verdict.
+
+### Support status
+Version 0.1.1 is experimental and supports Python 3.10+ with no third-party runtime dependencies. The project is not published to PyPI according to the README. Maintenance is best-effort with no SLA.
+
+### Limitations
+The scanner supports documented safetensors dtypes and simple relative shard basenames only. It favors portability over throughput, does not certify origin, and each output replacement is atomic but JSON plus HTML are not one filesystem transaction.

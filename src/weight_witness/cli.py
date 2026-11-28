@@ -1,8 +1,10 @@
 """CLI with machine-readable outcomes and source-overwrite guards."""
 import argparse
+import errno
 import json
 import os
 from pathlib import Path
+import shutil
 import sys
 import tempfile
 
@@ -57,25 +59,59 @@ def _destinations(args, inputs):
 
 
 def _write_outputs(outputs):
-    # Stage all artifacts before replacing any. Each replace is atomic, but the
-    # pair is not a filesystem transaction; an OS failure during replace can
-    # leave an earlier output updated. Inputs are never outputs.
-    staged = []
+    """Publish paired reports with best-effort rollback on ordinary I/O failures.
+
+    Each output is staged and backed up in a transaction directory on its own
+    filesystem. A failed publication restores earlier outputs, but the pair is
+    never atomically visible: cross-filesystem atomic rename is not promised.
+    If restoration itself fails, transaction directories are retained so the
+    original reports remain available for manual recovery.
+    """
+    transactions = []
     try:
         for path, content in outputs:
             if path is None:
                 continue
-            path = path.resolve()
-            with tempfile.NamedTemporaryFile(mode='w', encoding='utf8', newline='\n', dir=path.parent,
-                                             prefix='.weight-witness-', suffix='.tmp', delete=False) as stream:
-                staged.append((Path(stream.name), path))
+            target = Path(path).resolve()
+            directory = Path(tempfile.mkdtemp(dir=target.parent, prefix='.weight-witness-'))
+            state = {'directory': directory, 'target': target, 'staged': directory / 'new',
+                     'backup': directory / 'old', 'backed_up': False,
+                     'prepared': False, 'published': False}
+            transactions.append(state)
+            with state['staged'].open('w', encoding='utf8', newline='\n') as stream:
                 stream.write(content)
             # No user-controlled file is opened in write/truncate mode.
-        for temporary, target in staged:
-            os.replace(temporary, target)
-    finally:
-        for temporary, _ in staged:
-            temporary.unlink(missing_ok=True)
+        for state in transactions:
+            if state['target'].exists() or state['target'].is_symlink():
+                os.replace(state['target'], state['backup'])
+                state['backed_up'] = True
+            state['prepared'] = True
+        for state in transactions:
+            os.replace(state['staged'], state['target'])
+            state['published'] = True
+    except BaseException as exc:
+        rollback_errors = []
+        for state in reversed(transactions):
+            if not state['prepared']:
+                continue
+            try:
+                if state['backed_up']:
+                    os.replace(state['backup'], state['target'])
+                elif state['published']:
+                    state['target'].unlink(missing_ok=True)
+            except OSError as rollback_exc:
+                rollback_errors.append(f"{state['target']}: {rollback_exc}")
+        if rollback_errors:
+            retained = ', '.join(str(state['directory']) for state in transactions)
+            raise OSError(errno.EIO,
+                          f'output rollback failed ({"; ".join(rollback_errors)}); '
+                          f'recovery files retained in {retained}') from exc
+        for state in transactions:
+            shutil.rmtree(state['directory'], ignore_errors=True)
+        raise
+    else:
+        for state in transactions:
+            shutil.rmtree(state['directory'], ignore_errors=True)
 
 
 def main(argv=None):

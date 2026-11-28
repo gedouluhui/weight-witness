@@ -1,6 +1,7 @@
-include README.zh-CN.md
+include README.md README.zh-CN.md LICENSE CONTRIBUTING.md CHANGELOG.md SECURITY.md CODE_OF_CONDUCT.md
+include scripts/check_docs.py
 recursive-include examples *.py
-include docs/DESIGN.md docs/VERIFICATION.md docs/index.html docs/.nojekyll
+include docs/DESIGN.md docs/VERIFICATION.md docs/validation-v0.1.1.md docs/index.html docs/.nojekyll
 recursive-include docs/demo *.html *.json *.png
 recursive-include tests *.py
 recursive-include tools *.py
