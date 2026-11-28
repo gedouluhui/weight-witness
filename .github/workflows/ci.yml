@@ -30,3 +30,122 @@ jobs:
       - run: python -m pip install . numpy safetensors
       - run: python -c "import numpy, safetensors; print(numpy.__version__, safetensors.__version__)"
       - run: python -m unittest discover -s tests -v
+
+  artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install build frontend
+        run: python -m pip install build
+      - name: Build wheel and sdist
+        run: python -m build
+      - name: Inspect distribution contents
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import tarfile
+          import zipfile
+
+          wheels = list(Path('dist').glob('*.whl'))
+          sdists = list(Path('dist').glob('*.tar.gz'))
+          assert len(wheels) == 1, f'expected one wheel, found {wheels}'
+          assert len(sdists) == 1, f'expected one sdist, found {sdists}'
+          with zipfile.ZipFile(wheels[0]) as wheel:
+              names = set(wheel.namelist())
+              assert 'weight_witness/cli.py' in names
+              assert 'weight_witness/checkpoint.py' in names
+              assert any(name.endswith('.dist-info/METADATA') for name in names)
+          with tarfile.open(sdists[0]) as sdist:
+              names = sdist.getnames()
+              for suffix in ('pyproject.toml', 'src/weight_witness/cli.py',
+                             'tests/test_output_transaction.py',
+                             'tests/test_safetensors_compatibility.py'):
+                  assert any(name.endswith('/' + suffix) for name in names), suffix
+          print(f'wheel: {wheels[0].name}')
+          print(f'sdist: {sdists[0].name}')
+          PY
+      - name: Install and smoke each artifact outside the checkout
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import struct
+          import subprocess
+          import tempfile
+          import venv
+
+          checkout = Path.cwd().resolve()
+          artifacts = [next(Path('dist').glob('*.whl')), next(Path('dist').glob('*.tar.gz'))]
+          clean_env = {key: value for key, value in os.environ.items()
+                       if key.upper() not in ('PYTHONPATH', 'PYTHONHOME')}
+          clean_env['PIP_DISABLE_PIP_VERSION_CHECK'] = '1'
+
+          def checkpoint(path, value):
+              raw = b'{"x":{"dtype":"F32","shape":[1],"data_offsets":[0,4]}}'
+              path.write_bytes(struct.pack('<Q', len(raw)) + raw + struct.pack('<f', value))
+
+          with tempfile.TemporaryDirectory(prefix='weight-witness-artifacts-') as temporary:
+              for index, artifact in enumerate(artifacts):
+                  work = Path(temporary) / str(index)
+                  work.mkdir()
+                  environment = work / 'env'
+                  venv.EnvBuilder(with_pip=True).create(environment)
+                  python = environment / ('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
+
+                  def run(*args, expected=0):
+                      assert checkout not in work.resolve().parents
+                      result = subprocess.run([str(arg) for arg in args], cwd=work, env=clean_env,
+                                              capture_output=True, text=True, encoding='utf8', timeout=240)
+                      assert result.returncode == expected, (
+                          f'{args}: rc={result.returncode}, expected={expected}\n'
+                          f'{result.stdout}\n{result.stderr}')
+                      return result.stdout
+
+                  install = ['-m', 'pip', 'install', '--no-deps']
+                  if artifact.suffix == '.whl':
+                      install.append('--no-index')
+                  run(python, *install, artifact.resolve())
+                  package = run(python, '-I', '-c',
+                                'import weight_witness; print(weight_witness.__file__)').strip()
+                  package_path = Path(package).resolve()
+                  assert environment.resolve() in package_path.parents, package
+                  run(python, '-I', '-c',
+                      'import importlib.util; '
+                      'assert all(importlib.util.find_spec(name) is None '
+                      'for name in ("torch", "numpy", "safetensors"))')
+                  entrypoint = environment / ('Scripts/weight-witness.exe' if os.name == 'nt'
+                                              else 'bin/weight-witness')
+                  assert 'weight-witness ' in run(entrypoint, '--version')
+
+                  left, right = work / 'left.safetensors', work / 'right.safetensors'
+                  checkpoint(left, 1.0)
+                  checkpoint(right, 2.0)
+                  valid = json.loads(run(python, '-I', '-m', 'weight_witness', 'inspect', left))
+                  equal = json.loads(run(python, '-I', '-m', 'weight_witness', 'diff', left, left))
+                  report_json, report_html = work / 'report.json', work / 'report.html'
+                  changed_stdout = run(python, '-I', '-m', 'weight_witness', 'diff', left, right,
+                                       '--json', report_json, '--html', report_html, expected=1)
+                  changed = json.loads(changed_stdout)
+                  broken = work / 'broken'
+                  broken.mkdir()
+                  (broken / 'model.safetensors.index.json').write_text(
+                      '{"weight_map":{"x":"missing.safetensors"}}', encoding='utf8')
+                  invalid = json.loads(run(python, '-I', '-m', 'weight_witness', 'inspect', broken,
+                                           expected=2))
+                  assert valid['status'] == 'valid'
+                  assert equal['status'] == 'equal'
+                  assert changed['status'] == 'different'
+                  assert invalid['status'] == 'error'
+                  assert json.loads(report_json.read_text(encoding='utf8')) == changed
+                  assert 'Differences found' in report_html.read_text(encoding='utf8')
+                  print(f'{artifact.name}: isolated install and 0/1/2 smoke verdicts passed')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distributions-${{ github.sha }}
+          path: dist/*
+          if-no-files-found: error
