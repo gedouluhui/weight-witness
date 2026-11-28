@@ -11,7 +11,7 @@ Contributions of focused fixes, reproducible counterexamples, and documentation 
 
 ## Development setup
 
-Supported version: **0.1.0**. Install and run the primary test command:
+Supported version: **0.1.1**. Install and run the primary test command:
 
 ```sh
 python -m pip install .

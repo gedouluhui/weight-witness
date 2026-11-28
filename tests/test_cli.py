@@ -102,7 +102,8 @@ class CliTests(unittest.TestCase):
 
     def test_version_and_help(self):
         self.assertEqual(self.run_cli('--help').returncode, 0)
-        self.assertIn('0.1.0', self.run_cli('--version').stdout)
+        from weight_witness import __version__
+        self.assertIn(__version__, self.run_cli('--version').stdout)
 
 
 if __name__ == '__main__': unittest.main()

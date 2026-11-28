@@ -4,7 +4,7 @@
 
 不加载模型、不依赖 PyTorch、不执行 pickle、不上传数据。检查本地 safetensors 的分片索引是否真的指向正确权重，并逐张量比较两个 checkpoint 的内容；重分片但权重相同不会被误报成模型变化。
 
-这是实验性 v0.1.0 工具，不是模型质量评测器、来源认证器或安全保证。英文 [README](README.md) 是完整使用与边界说明。
+这是实验性 v0.1.1 工具，不是模型质量评测器、来源认证器或安全保证。英文 [README](README.md) 是完整使用与边界说明。
 
 ## 快速运行
 
@@ -70,7 +70,7 @@ weight-witness diff artifacts/demo/base artifacts/demo/candidate --json artifact
 证据包括结构解析器测试、真实 CLI 往返、输出别名保护、确定性报告，以及可选的官方 safetensors/NumPy oracle。覆盖范围是文档化的 safetensors 类型/路径子集；不是模型质量、来源、恶意代码或安全判定。
 
 ### 支持状态
-版本 0.1.0 是实验性版本，支持 Python 3.10+，无第三方运行时依赖。README 表明项目尚未发布到 PyPI。维护为尽力而为，不提供 SLA。
+版本 0.1.1 是实验性版本，支持 Python 3.10+，无第三方运行时依赖。README 表明项目尚未发布到 PyPI。维护为尽力而为，不提供 SLA。
 
 ### 限制
 扫描器仅支持文档化的 safetensors 类型和简单相对分片文件名。它优先考虑可移植性而非吞吐量，不认证来源；每个输出替换是原子的，但 JSON 与 HTML 不是一个文件系统事务。
